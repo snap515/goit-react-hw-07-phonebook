@@ -1,16 +1,16 @@
 import { useDispatch, useSelector } from 'react-redux'
-import { apiDeleteContact, apiGetContacts, removeContact } from '../../redux/contacts/contactsSlice';
+import { apiDeleteContact, apiGetContacts } from '../../redux/contacts/contactsSlice';
 import css from './ContactList.module.css' 
 import { useEffect } from 'react';
-import { STATUSES } from 'utils/constants';
+// import { STATUSES } from 'utils/constants';
 
 export const ContactList = () => {
   const dispatch = useDispatch();
   
   const contacts = useSelector(state => state.contacts.contacts)
   const filter = useSelector(state => state.filter.filter)
-  const status = useSelector(state => state.contacts.status)
-  const error = useSelector(state => state.contacts.error)
+  // const status = useSelector(state => state.contacts.status)
+  // const error = useSelector(state => state.contacts.error)
   
   useEffect(() => {
     dispatch(apiGetContacts())
@@ -38,5 +38,5 @@ export const ContactList = () => {
   )
 }
 
-            {/* {status === STATUSES.pending && <div>Loading...</div>}
-            {status === STATUSES.error && <div>{error}</div>} */}
+            /* {status === STATUSES.pending && <div>Loading...</div>}
+            {status === STATUSES.error && <div>{error}</div>} */
