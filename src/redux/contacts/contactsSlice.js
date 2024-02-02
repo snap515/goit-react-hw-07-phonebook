@@ -7,7 +7,6 @@ export const apiGetContacts = createAsyncThunk(
   async (_, thunkApi) => {
     try {
       const contacts = await contactsApi.fetchContacts();
-
       return contacts;
     } catch (error) {
       return thunkApi.rejectWithValue(error.message);
@@ -32,6 +31,7 @@ export const apiDeleteContact = createAsyncThunk(
   async (id, thunkApi) => {
     try {
       const contacts = await contactsApi.deleteContact(id);
+      console.log(id);
       return contacts;
     } catch (error) {
       return thunkApi.rejectWithValue(error.message);
@@ -51,16 +51,16 @@ const contactsSlice = createSlice({
   //начальное состояние редьюсера слайса
   initialState,
   //объект редьюсеров
-  reducers: {
-    addContact(state, action) {
-      state.contacts = [...state.contacts, action.payload];
-    },
-    removeContact(state, action) {
-      state.contacts = state.contacts.filter(
-        contact => contact.id !== action.payload
-      );
-    },
-  },
+  // reducers: {
+  //   // addContact(state, action) {
+  //   //   state.contacts = [...state.contacts, action.payload];
+  //   // },
+  //   // removeContact(state, action) {
+  //   //   state.contacts = state.contacts.filter(
+  //   //     contact => contact.id !== action.payload
+  //   //   );
+  //   // },
+  // },
   extraReducers: builder => {
     builder
       .addCase(apiGetContacts.pending, (state, _) => {
@@ -81,21 +81,24 @@ const contactsSlice = createSlice({
       })
       .addCase(apiAddContact.fulfilled, (state, action) => {
         state.status = STATUSES.success;
-        state.contacts = [...state.contacts, action.payload];
+        state.contacts.push(action.payload);
       })
       .addCase(apiAddContact.rejected, (state, action) => {
         state.status = STATUSES.error;
         state.error = action.payload;
       })
-      .addCase(apiDeleteContact.pending, (state, _) => {
+      .addCase(apiDeleteContact.pending, (state, action) => {
         state.status = STATUSES.pending;
         state.error = null;
       })
       .addCase(apiDeleteContact.fulfilled, (state, action) => {
+        console.log(action);
         state.status = STATUSES.success;
-        state.contacts = state.contacts.filter(
-          contactEl => contactEl.id !== action.payload
-        );
+        state.contacts = state.contacts.filter(contactEl => {
+          console.log(action);
+          return contactEl.id !== action.payload.id;
+        });
+        console.log(action.payload);
       })
       .addCase(apiDeleteContact.rejected, (state, action) => {
         state.status = STATUSES.error;
@@ -105,6 +108,6 @@ const contactsSlice = createSlice({
 });
 
 //генератор екшенов
-export const { addContact, removeContact } = contactsSlice.actions;
+// export const { addContact, removeContact } = contactsSlice.actions;
 // редьюсер слайса
 export const contactsReducer = contactsSlice.reducer;

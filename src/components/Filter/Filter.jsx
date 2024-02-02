@@ -1,5 +1,5 @@
 import { useDispatch } from 'react-redux';
-import { saveFilterValue } from '../../redux/filter/filterSlice'
+import { filteredValue } from '../../redux/filter/filterSlice'
 import css from './Filter.module.css'
 
 export const Filter = () => {
@@ -7,7 +7,7 @@ export const Filter = () => {
 
   const onFilterChange = (e) => {
     const filterValue = e.target.value.trim();
-    dispatch(saveFilterValue(filterValue))
+    dispatch(filteredValue(filterValue))
   }
   return (
     <div className={css.filterWrapper}>

@@ -11,13 +11,13 @@ const filterSlice = createSlice({
   initialState,
   //объект редьюсеров
   reducers: {
-    saveFilterValue(state, action) {
+    filteredValue(state, action) {
       state.filter = action.payload;
     },
   },
 });
 
 //генератор екшенов
-export const { saveFilterValue } = filterSlice.actions;
+export const { filteredValue } = filterSlice.actions;
 // редьюсер слайса
 export const filterReducer = filterSlice.reducer;
