@@ -4,11 +4,12 @@ import { useRef } from 'react';
 import { apiAddContact } from '../../redux/contacts/contactsSlice';
 
 import css from './ContactForm.module.css'
+import { selectContactsList } from '../../redux/contacts/contactSlice.selectors';
 
 
 export const ContactForm = () => {
   const dispatch = useDispatch();
-  const contacts = useSelector(state => state.contacts.contacts);
+  const contacts = useSelector(selectContactsList);
 
   const nameRef = useRef(null);
   const phoneRef = useRef(null);

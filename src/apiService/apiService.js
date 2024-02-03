@@ -11,11 +11,11 @@ export async function fetchContacts() {
 }
 
 export async function addContact(contact) {
-  const { data } = contactsApi.post('/contacts', contact);
+  const { data } = await contactsApi.post('/contacts', contact);
   return data;
 }
 
 export async function deleteContact(id) {
-  const { data } = contactsApi.delete(`/contacts/${id}`);
+  const { data } = await contactsApi.delete(`/contacts/${id}`);
   return data;
 }

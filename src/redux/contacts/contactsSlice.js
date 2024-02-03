@@ -31,7 +31,6 @@ export const apiDeleteContact = createAsyncThunk(
   async (id, thunkApi) => {
     try {
       const contacts = await contactsApi.deleteContact(id);
-      console.log(id);
       return contacts;
     } catch (error) {
       return thunkApi.rejectWithValue(error.message);
@@ -92,13 +91,10 @@ const contactsSlice = createSlice({
         state.error = null;
       })
       .addCase(apiDeleteContact.fulfilled, (state, action) => {
-        console.log(action);
         state.status = STATUSES.success;
         state.contacts = state.contacts.filter(contactEl => {
-          console.log(action);
           return contactEl.id !== action.payload.id;
         });
-        console.log(action.payload);
       })
       .addCase(apiDeleteContact.rejected, (state, action) => {
         state.status = STATUSES.error;

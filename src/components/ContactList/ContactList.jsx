@@ -3,20 +3,23 @@ import { apiDeleteContact, apiGetContacts } from '../../redux/contacts/contactsS
 import css from './ContactList.module.css' 
 import { useEffect } from 'react';
 import { STATUSES } from 'utils/constants';
+import {  selectError, selectStatus } from '../../redux/contacts/contactSlice.selectors';
+import { selectContactsFilter } from '../../redux/filter/filtlerSlice.selectors';
 
 export const ContactList = () => {
   const dispatch = useDispatch();
   
-  const contacts = useSelector(state => state.contacts.contacts)
-  const filter = useSelector(state => state.filter.filter)
-  const status = useSelector(state => state.contacts.status)
-  const error = useSelector(state => state.contacts.error)
+  // const contacts = useSelector(selectContacts)
+  // const filter = useSelector(selectFilter)
+  const status = useSelector(selectStatus)
+  const error = useSelector(selectError)
+  const filteredContacts = useSelector(selectContactsFilter)
   
   useEffect(() => {
     dispatch(apiGetContacts())
   }, [dispatch])
 
-  const filteredContacts = contacts?.filter(contactEl => contactEl.name.toLowerCase().includes(filter.trim().toLowerCase()))
+  // const filteredContacts = contacts?.filter(contactEl => contactEl.name.toLowerCase().includes(filter.trim().toLowerCase()))
 
   const onDeleteContact = id => {
     const isConfirmed = window.confirm('Are you sure want to delete this contact?');
